@@ -1,0 +1,273 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0b0c;
+  --color-ink-soft: #141416;
+  --color-paper: #f2f1ee;
+  --color-paper-warm: #e8e6e1;
+  --color-accent: #f2531b;
+  --color-accent-soft: #ff7a45;
+
+  /* Signal green — sampled from the hero plate's technical marks. */
+  --color-signal: #26603e;
+  /* Accent for dark grounds — #26603e is only 2.65:1 on ink. */
+  --color-signal-soft: #4cb37e;
+  --color-canvas: #eeeae5;
+
+  /* Globe */
+  --color-globe-sea: #1d4266;
+  --color-globe-sea-deep: #0d233b;
+  --color-globe-land: #e8d6b0;
+  --color-globe-land-edge: #7a6b52;
+  --color-globe-pin: #21c46a;
+
+  /* Timeline. The bright one is for graphics only — it is 2:1 on white, so the
+     numerals use the deeper one, which clears AA at 4.8:1. */
+  --color-success: #21c46a;
+  --color-success-ink: #0f7a3d;
+
+  /* Nav gold. The base clears AA on cream (4.73:1); the light stop is only
+     ever the moving highlight, never the resting colour. */
+  --color-gold: #7f631f;
+  --color-gold-light: #c9a75a;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-didone: var(--font-bodoni), ui-serif, Georgia, serif;
+
+  --text-display: clamp(2.6rem, 6.2vw, 5.4rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-title: clamp(1.9rem, 3.6vw, 3.1rem);
+  --text-title--line-height: 1.04;
+  --text-title--letter-spacing: -0.03em;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer utilities {
+  .u-container {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 88rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .u-container {
+      padding-inline: 2.5rem;
+    }
+  }
+  .u-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .u-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  /* Faint graph paper. Major squares with a lighter minor grid inside. */
+  .u-grid {
+    background-image:
+      linear-gradient(
+          to right,
+          color-mix(in srgb, var(--color-ink) 7%, transparent) 1px,
+          transparent 1px
+        ),
+      linear-gradient(
+          to bottom,
+          color-mix(in srgb, var(--color-ink) 7%, transparent) 1px,
+          transparent 1px
+        ),
+      linear-gradient(
+          to right,
+          color-mix(in srgb, var(--color-ink) 3.5%, transparent) 1px,
+          transparent 1px
+        ),
+      linear-gradient(
+          to bottom,
+          color-mix(in srgb, var(--color-ink) 3.5%, transparent) 1px,
+          transparent 1px
+        );
+    background-size:
+      88px 88px,
+      88px 88px,
+      22px 22px,
+      22px 22px;
+  }
+  /* Brushed-gold text with a slow highlight passing through it. */
+  .u-gold {
+    color: var(--color-gold);
+  }
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .u-gold {
+      background-image: linear-gradient(
+        100deg,
+        var(--color-gold) 0%,
+        var(--color-gold) 42%,
+        var(--color-gold-light) 50%,
+        var(--color-gold) 58%,
+        var(--color-gold) 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: u-gold-sheen 7s linear infinite;
+    }
+  }
+  @keyframes u-gold-sheen {
+    from {
+      background-position: 150% 0;
+    }
+    to {
+      background-position: -150% 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .u-gold {
+      animation: none;
+      background-image: none;
+      color: var(--color-gold);
+    }
+  }
+  /* When the button fills, drop the clip so the label reads against it. */
+  .u-gold-host:hover .u-gold,
+  .u-gold-host:focus-visible .u-gold {
+    background-image: none;
+    animation: none;
+    color: var(--color-paper);
+  }
+  /* Movie-ticket silhouette: half-round notches punched along the top and
+     bottom edges. Put `u-ticket-shadow` on the parent so the drop shadow
+     follows the notched alpha rather than a plain rectangle. */
+  .u-ticket {
+    --ticket-r: 11px;
+    --ticket-pitch: 38px;
+    --ticket-cut: 30px;
+    /* How far the deep right-hand chamfers run back from the edge. The 15%/85%
+       stops below mean the right edge itself is only the middle 70%. */
+    --ticket-cut-right: 120px;
+    /* Chamfered corners. Composes with the notch mask below: clip-path cuts the
+       corners, the mask punches the edges, and both feed the parent's shadow. */
+    clip-path: polygon(
+      var(--ticket-cut) 0,
+      calc(100% - var(--ticket-cut-right)) 0,
+      100% 15%,
+      100% 85%,
+      calc(100% - var(--ticket-cut-right)) 100%,
+      var(--ticket-cut) 100%,
+      0 calc(100% - var(--ticket-cut)),
+      0 var(--ticket-cut)
+    );
+    -webkit-mask-image:
+      radial-gradient(var(--ticket-r) at 50% 0, transparent 98%, #000 100%),
+      radial-gradient(var(--ticket-r) at 50% 100%, transparent 98%, #000 100%);
+    mask-image:
+      radial-gradient(var(--ticket-r) at 50% 0, transparent 98%, #000 100%),
+      radial-gradient(var(--ticket-r) at 50% 100%, transparent 98%, #000 100%);
+    -webkit-mask-size: var(--ticket-pitch) 100%;
+    mask-size: var(--ticket-pitch) 100%;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+  .u-ticket-shadow {
+    filter: drop-shadow(0 14px 34px rgba(11, 11, 12, 0.1));
+  }
+  /* The tear-off line, with a punched hole at each end. */
+  .u-perforation {
+    background-image: repeating-linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-ink) 28%, transparent) 0 7px,
+      transparent 7px 15px
+    );
+  }
+  /* Rings radiating off the live node. Two copies, staggered, read as waves. */
+  .u-pulse {
+    animation: u-pulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  .u-pulse-late {
+    animation-delay: 1.1s;
+  }
+  @keyframes u-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    70% {
+      transform: scale(3.4);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(3.4);
+      opacity: 0;
+    }
+  }
+  /* Footer wordmark. Sits low in the dark and rises when the footer is
+     pointed at — a quiet reward rather than a flat white slab. */
+  .u-footer-mark {
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-paper) 48%, transparent) 0%,
+      color-mix(in srgb, var(--color-paper) 22%, transparent) 55%,
+      color-mix(in srgb, var(--color-paper) 6%, transparent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .u-hairline {
+    border-color: color-mix(in srgb, currentColor 14%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
