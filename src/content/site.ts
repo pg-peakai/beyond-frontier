@@ -11,7 +11,7 @@ export const BRAND = {
     "Beyond Frontier captures real-world human labor footage — egocentric video, synchronized IMU, human-audited annotation — as training data for embodied AI and VLA models.",
   location:
     "Headquartered in India. Capture nationwide. Supplying labs globally.",
-  email: "hello@peakrobotics.ai",
+  email: "pg@byndfrntr.com",
 };
 
 export const NAV = [

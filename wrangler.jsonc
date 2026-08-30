@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "beyond-frontier",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  // Zone routes rather than custom domains: byndfrntr.com and www already have
+  // proxied A records, and the Workers custom-domain API refuses to attach over
+  // existing records (error 100117). Keep workers_dev true or the preview URL 404s.
+  "routes": [
+    { "pattern": "byndfrntr.com/*", "zone_name": "byndfrntr.com" },
+    { "pattern": "www.byndfrntr.com/*", "zone_name": "byndfrntr.com" }
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}
