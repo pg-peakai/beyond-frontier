@@ -45,6 +45,49 @@ export default function PartnersPage() {
         </div>
       </Section>
 
+      <Section tone="ink">
+        <div className="grid gap-12 md:grid-cols-[1fr_1.4fr] md:gap-20">
+          <div>
+            <Label index="02">{PARTNERS.apply.label}</Label>
+            <Reveal>
+              <h2 className="font-didone text-[clamp(2rem,3.4vw,3.1rem)] leading-[0.96] tracking-[-0.015em] mt-8 max-w-[13ch]">
+                Applying takes one sitting.
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="mt-7 max-w-[36ch] text-lg leading-relaxed text-paper/70">
+                You apply on our partner intake. It opens in a new place, but it
+                is the same operation on the other side.
+              </p>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <div className="mt-10">
+                <Button href={PARTNERS.cta.href} variant="onDark">
+                  {PARTNERS.cta.label}
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+          <ul className="grid gap-px self-start bg-paper/10 sm:grid-cols-2">
+            {PARTNERS.apply.items.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.06} className="bg-ink">
+                <li className="flex h-full flex-col gap-3 p-7">
+                  <span className="u-label text-signal-soft">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-lg leading-snug tracking-[-0.02em]">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-paper/60">
+                    {item.body}
+                  </p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </Section>
+
       <Section tone="warm" className="py-28 md:py-40">
         <div className="flex flex-col items-start gap-10 md:flex-row md:items-end md:justify-between">
           <Reveal>

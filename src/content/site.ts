@@ -14,6 +14,21 @@ export const BRAND = {
   email: "pg@byndfrntr.com",
 };
 
+/**
+ * Vendor intake — a separate product at vendors.byndfrntr.com.
+ * Every link out of this site carries a short, stable `src` slug so the intake
+ * can attribute the application. First touch wins there, so do not add a second
+ * slug to an existing entry point; add a new one. Never rebuild any part of the
+ * intake form here — the phone number must be verified on the page that sends
+ * the OTP.
+ */
+export const VENDORS = {
+  base: "https://vendors.byndfrntr.com/",
+  /** Slugs in use: website-hero, website-partners, website-footer. */
+  link: (src: "website-hero" | "website-partners" | "website-footer") =>
+    `https://vendors.byndfrntr.com/?src=${src}`,
+};
+
 export const NAV = [
   { label: "Data", href: "/#labs" },
   { label: "Buyers", href: "/buyers" },
@@ -35,7 +50,10 @@ export const HOME = {
     ],
     sub: "Beyond Frontier builds the intelligence layer for robotics.",
     primary: { label: "Request a dataset", href: "/contact" },
-    secondary: { label: "Become a capture site", href: "/partners" },
+    secondary: {
+      label: "Become a capture partner",
+      href: "https://vendors.byndfrntr.com/?src=website-hero",
+    },
   },
 
   network: {
@@ -424,8 +442,8 @@ export const PARTNERS = {
   eyebrow: "For capture partners",
   headline: ["Your floor", "is a dataset."],
   intro: [
-    "If you run a factory, a workshop, a construction firm, or a training institute, you're sitting on something AI labs are paying for and can't get anywhere else: people doing skilled physical work, every day, at real speed.",
-    "We handle the hardware, the training, the consent process, the QC, and the buyer relationships. You provide access and coordination. You get paid per approved hour delivered.",
+    "You do not have to own the site. Most of our partners are people who can arrange access — through a contact at a plant, a contractor they have worked with for years, a workshop that trusts them. If you can open a door to real work being done, that is the hard part, and it is the part we pay for.",
+    "Factories, warehouses, kitchens, retail floors, construction. We handle the hardware, the training, the consent process, the QC and the buyer relationships. You arrange access and coordination. You are paid per accepted hour.",
     "No disruption to production. Workers wear a light head rig and do their normal job.",
   ],
   handled: {
@@ -438,7 +456,34 @@ export const PARTNERS = {
       "Buyer contracts and payment",
     ],
   },
-  cta: { label: "Become a capture partner", href: "/contact" },
+  cta: {
+    label: "Apply to record",
+    href: "https://vendors.byndfrntr.com/?src=website-partners",
+  },
+  /** Sets expectations for the intake at vendors.byndfrntr.com. Keep this in
+   *  step with that flow: it is phone-first, and its length varies with how
+   *  many environments an applicant picks — so never state a step count. */
+  apply: {
+    label: "How applying works",
+    items: [
+      {
+        title: "Starts with a phone number",
+        body: "No password and no account to create. You verify a number by one-time code, and that number is how you get back in — from any device.",
+      },
+      {
+        title: "Around ten minutes",
+        body: "It saves as you go. Leave it half done, come back on the same number, and pick up where you stopped.",
+      },
+      {
+        title: "You rank what you can reach",
+        body: "Order the environments you can record in — factories, warehouses, kitchens, retail, construction — with locations, how fast you could deploy, and a short sample video for each.",
+      },
+      {
+        title: "Paid per accepted hour",
+        body: "Not per promise, and not per hour shot. Footage that clears QC is what earns. Refer another partner and you earn again when their footage is accepted.",
+      },
+    ],
+  },
 };
 
 export const ABOUT = {

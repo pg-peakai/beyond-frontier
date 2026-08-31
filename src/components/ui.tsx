@@ -117,8 +117,11 @@ export function Button({
   variant = "accent",
   className,
 }: ButtonProps) {
+  // Outbound links (the vendor intake) must be a plain anchor, not next/link.
+  const external = href.startsWith("http");
+  const Tag = external ? "a" : Link;
   return (
-    <Link
+    <Tag
       href={href}
       className={cn(
         "u-label inline-flex items-center gap-2 border px-8 py-4 tracking-[0.18em] transition-colors duration-300",
@@ -134,8 +137,8 @@ export function Button({
       )}
     >
       <span>{children}</span>
-      <span aria-hidden>&rarr;</span>
-    </Link>
+      <span aria-hidden>{external ? "\u2197" : "\u2192"}</span>
+    </Tag>
   );
 }
 

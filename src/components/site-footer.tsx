@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BRAND, NAV } from "@/content/site";
+import { BRAND, NAV, VENDORS } from "@/content/site";
 
 const year = new Date().getFullYear();
 
@@ -33,6 +33,17 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href={VENDORS.link("website-footer")}
+                  className="inline-flex items-center gap-1.5 text-sm text-paper/70 transition-colors hover:text-paper"
+                >
+                  Become a capture partner
+                  <span aria-hidden className="text-signal-soft">
+                    &#8599;
+                  </span>
+                </a>
+              </li>
             </ul>
           </div>
 
